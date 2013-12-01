@@ -50,6 +50,10 @@ var indexfn = function(request, response) {
     });
 };
 
+var searchfn = function(request, response){
+    response.render("search", {});
+}
+
 var orderfn = function(request, response) {
     var successcb = function(orders_json) {
 	response.render("orderpage", {orders: orders_json});
@@ -109,7 +113,8 @@ var define_routes = function(dict) {
 };
 
 var ROUTES = define_routes({
-    '/': indexfn
+    '/': indexfn,
+    '/search' : searchfn
 //    '/orders': orderfn,
 //    '/api/orders': api_orderfn,
 //    '/refresh_orders': refresh_orderfn
