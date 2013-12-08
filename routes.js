@@ -75,6 +75,15 @@ var api_orderfn = function(request, response) {
     global.db.Order.totals(successcb, errcb);
 };
 
+var api_brewer = function(request, response) {
+    var successcb = function(beers) {
+	var data = { beers : beers } 
+	response.json(data);
+    };
+    var errcb = build_errfn('error retrieving brewer information', response);
+    global.db.Beer.allByBrewer('AVERY', successcb, errcb);
+}
+
 var refresh_orderfn = function(request, response) {
     var cb = function(err) {
 	if(err) {
@@ -114,7 +123,8 @@ var define_routes = function(dict) {
 
 var ROUTES = define_routes({
     '/': indexfn,
-    '/search' : searchfn
+    '/search' : searchfn,
+    '/api/brewer' : api_brewer
 //    '/orders': orderfn,
 //    '/api/orders': api_orderfn,
 //    '/refresh_orders': refresh_orderfn

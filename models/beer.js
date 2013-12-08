@@ -9,10 +9,10 @@ module.exports = function(sequelize, DataTypes){
 	brewer: {type: DataTypes.STRING}
     },{
 	classMethods: {
-	    allByBrewer: function(brewer, cb) {
+	    allByBrewer: function(brewer, successcb, errcb) {
 		this.findAll({where: {brewer: brewer}}).success(function(brews){
-		    cb(uu.invoke(brews, 'toJSON'));
-		});
+		    successcb(uu.invoke(brews, 'toJSON'));
+		}).error(errcb);
 	    }
 	}
     }

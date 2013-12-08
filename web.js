@@ -1,4 +1,5 @@
 var express = require('express')
+  , ejs     = require('ejs')
   , http    = require('http')
   , path    = require('path')
   , async   = require('async')
