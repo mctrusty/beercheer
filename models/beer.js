@@ -1,4 +1,5 @@
 var uu = require('underscore');
+var qstring = "SELECT * FROM beers WHERE to_tsvector(beer || ' ' || brewer) @@ to_tsquery(:qterms)";
 module.exports = function(sequelize, DataTypes){
     return sequelize.define("beer", {
 	beer: {
@@ -11,6 +12,11 @@ module.exports = function(sequelize, DataTypes){
 	classMethods: {
 	    allByBrewer: function(brewer, successcb, errcb) {
 		this.findAll({where: {brewer: brewer}}).success(function(brews){
+		    successcb(uu.invoke(brews, 'toJSON'));
+		}).error(errcb);
+	    },
+	    fullTextSearch: function(qparms, successcb, errcb) {
+		sequelize.query(qstring, this, {raw: false}, {qterms: qparms}).success(function(brews) {
 		    successcb(uu.invoke(brews, 'toJSON'));
 		}).error(errcb);
 	    }
