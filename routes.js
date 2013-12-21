@@ -81,7 +81,7 @@ var api_brewer = function(request, response) {
 	response.json(data);
     };
     var errcb = build_errfn('error retrieving brewer information', response);
-    global.db.Beer.allByBrewer('AVERY', successcb, errcb);
+    global.db.Beer.fullTextSearch(request.query.q, successcb, errcb);
 }
 
 var refresh_orderfn = function(request, response) {

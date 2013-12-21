@@ -71,7 +71,7 @@
         <p>
           <form role="search">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
+              <input type="text" class="form-control" placeholder="Search" id="beersearch">
             </div>
             <button type="submit" onclick="search(); return false;" class="btn btn-default">Submit</button>
           </form>	
@@ -92,8 +92,10 @@
 
     <script type="text/javascript">
     	    function search() {
+	        var terms = $('#beersearch').val();
+	        var beerurl = '/api/brewer?q=' + terms;
 	    	$.ajax({
-		    url: '/api/brewer',
+		    url: beerurl,
 		    cache: false
 		}).done(function(json) {
 		    html = new EJS({url : 'partial/beers.ejs'}).render(json);
