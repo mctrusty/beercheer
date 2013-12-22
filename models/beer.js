@@ -1,5 +1,5 @@
 var uu = require('underscore');
-var qstring = "SELECT * FROM beers WHERE to_tsvector(beer || ' ' || brewer) @@ to_tsquery(:qterms)";
+var qstring = "SELECT * FROM beers WHERE to_tsvector(coalesce(beer,'1') || ' ' || coalesce(brewer, '')) @@ plainto_tsquery(:qterms)";
 module.exports = function(sequelize, DataTypes){
     return sequelize.define("beer", {
 	beer: {
@@ -7,7 +7,10 @@ module.exports = function(sequelize, DataTypes){
 	    /*get : function(){ this.getDataValue('beer'); },
 	    set : function(v) { this.setDataValue('beer', v.toString());}*/
 	},
-	brewer: {type: DataTypes.STRING}
+	brewer: {type: DataTypes.STRING},
+	store: {type: DataTypes.STRING},
+	qty: {type: DataTypes.STRING},
+	price: {type: DataTypes.STRING}
     },{
 	classMethods: {
 	    allByBrewer: function(brewer, successcb, errcb) {

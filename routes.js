@@ -122,7 +122,7 @@ var define_routes = function(dict) {
 };
 
 var ROUTES = define_routes({
-    '/': indexfn,
+    '/': searchfn,
     '/search' : searchfn,
     '/api/brewer' : api_brewer
 //    '/orders': orderfn,

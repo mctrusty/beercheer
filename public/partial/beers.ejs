@@ -1,6 +1,11 @@
-Beer...
-<ul>
+<table>
 <% for(var i=0; i<beers.length; i++) {%>
-   <li><%= beers[i].beer %></li>
+   <tr>
+     <td><%= beers[i].store %></td>
+     <td><%= beers[i].brewer %></td>
+     <td><%= beers[i].beer %></td>
+     <td><%= beers[i].qty %></td>
+     <td><%= beers[i].price %></td>
+   </tr>
 <% } %>
-</ul>
+</table>
