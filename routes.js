@@ -64,8 +64,7 @@ var inputbeer = forms.create({
 });
 
 var inputbeerfn = function(request, response) {
-    var htmlToSend = "<% layout('master') -%>\n" + inputbeer.toHTML();
-    response.send(htmlToSend);
+    response.render("beerinput");
 };
 
 var orderfn = function(request, response) {
