@@ -1,6 +1,9 @@
 var uu      = require('underscore')
   , db      = require('./models')
-  , Constants = require('./constants');
+  , Constants = require('./constants')
+  , forms = require('forms')
+  , fields = forms.fields
+  , validators = forms.validators;
 
 var build_errfn = function(errmsg, response) {
     return function errfn(err) {
@@ -52,7 +55,17 @@ var indexfn = function(request, response) {
 
 var searchfn = function(request, response){
     response.render("search", {});
-}
+};
+
+var inputbeer = forms.create({
+    store: fields.string({required: true}),
+    beer: fields.string({required: true}),
+    price: fields.string({required: true})
+});
+
+var inputbeerfn = function(request, response) {
+    response.send(inputbeer.toHTML());
+};
 
 var orderfn = function(request, response) {
     var successcb = function(orders_json) {
@@ -124,7 +137,8 @@ var define_routes = function(dict) {
 var ROUTES = define_routes({
     '/': searchfn,
     '/search' : searchfn,
-    '/api/brewer' : api_brewer
+    '/api/brewer' : api_brewer,
+    '/input' : inputbeerfn
 //    '/orders': orderfn,
 //    '/api/orders': api_orderfn,
 //    '/refresh_orders': refresh_orderfn
