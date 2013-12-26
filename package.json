@@ -14,7 +14,8 @@
     "async": "~0.2.9",
     "request": "~2.27.0",
     "underscore": "~1.5.1",
-    "forms": "~0.3.0"
+    "forms": "~0.3.0",
+    "ejs-locals": "~1.0.2"
   },
   "engines": {
     "node": "0.10.12",

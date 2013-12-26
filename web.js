@@ -1,4 +1,5 @@
 var express = require('express')
+  , engine  = require('ejs-locals')
   , ejs     = require('ejs')
   , http    = require('http')
   , path    = require('path')
@@ -59,18 +60,6 @@ var express = require('express')
   displayed statistic every 10 minutes (say), such that you only make 6 API
   calls per hour rather than N=10000 or more.
 
-  In our app, the statistic we are displaying on the front page is the
-  thermometer and the remote service is Coinbase. The idea is that we want
-  to hit the remote Coinbase servers at regular intervals to mirror the
-  order data locally. Previously, we added the capability to manually force
-  mirroring of the Coinbase data to the local server by navigating to
-  example.com/refresh_orders, which will trigger the refresh_orderfn in
-  routes.js. However, by isolating the refresh code to a single method
-  invocation (global.db.Order.refreshFromCoinbase), we can also call it in
-  another function. We do so within the scope of a setInterval invocation
-  (below), which calls the specified function periodically.  Now we can
-  refresh in two places.
-
   So, to recap: by isolating the refresh code within a method call on the
   Order object, we could call it in two places. And by using the built-in
   asynchronous features of node, we can easily have both the HTTP server and
@@ -80,6 +69,7 @@ var express = require('express')
 */
 var app = express();
 app.set('views', __dirname + '/views');
+app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 8080);
 app.use(express.static(path.join(__dirname, 'public')));
