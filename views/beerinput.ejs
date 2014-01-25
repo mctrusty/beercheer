@@ -8,6 +8,24 @@
      <input type="text" name="beer" class="form-control" id="id_beer" />
 </div>
 <div class="field required">
+     <label for="id_brewer">Brewer</label>
+     <input type="text" name="brewer" class="form-control" id="id_brewer" />
+</div>
+<div class="field required">
+     <label for="id_qty">Quantity</label>
+     <input type="text" name="qty" class="form-control" id="id_qty" />
+</div>
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="qtyDropdown" data-toggle="dropdown">
+    Quantity
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="qtyDropdown">
+    <li><a ref="#">12 oz</a></li>
+    <li><a href="#">22 oz</a></li>
+  </ul>  
+</div>
+<div class="field required">
      <label for="id_price">Price</label>
      <input type="text" name="price" class="form-control" id="id_price" />
 </div>
