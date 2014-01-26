@@ -76,11 +76,12 @@ var api_brewer = function(request, response) {
 
 var posttodb = function (req, res) {
     console.log('posting form ' + req.body.brewer);
-    global.db.Beer.create({
+    var qty = req.body.qty + ' ' + req.body.containersz + ' ' + req.body.container;
+	global.db.Beer.create({
 	beer : req.body.beer,
 	brewer : req.body.brewer,
 	store : req.body.store,
-	qty : req.body.qty,
+	qty : qty,
 	price : req.body.price
     }).complete(function (err, beer) {
 	if (!!err) {
