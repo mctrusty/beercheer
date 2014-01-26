@@ -75,7 +75,21 @@ var api_brewer = function(request, response) {
 // Post routes
 
 var posttodb = function (req, res) {
-    console.log('posting form\n');
+    console.log('posting form ' + req.body.brewer);
+    global.db.Beer.create({
+	beer : req.body.beer,
+	brewer : req.body.brewer,
+	store : req.body.store,
+	qty : req.body.qty,
+	price : req.body.price
+    }).complete(function (err, beer) {
+	if (!!err) {
+	    console.log('could not save beer instance: ', err);
+	} else {
+	    console.log('beer instance saved');
+	}
+    });
+
     res.render("beerinput");
 }
 /*
