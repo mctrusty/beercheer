@@ -76,8 +76,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.favicon(path.join(__dirname, 'public/img/favicon.ico')));
 app.use(express.logger("dev"));
 
-for(var ii in ROUTES) {
-    app.get(ROUTES[ii].path, ROUTES[ii].fn);
+for(var ii in ROUTES.ROUTES) {
+    app.get(ROUTES.ROUTES[ii].path, ROUTES.ROUTES[ii].fn);
+}
+
+for(var ii in ROUTES.POST_ROUTES) {
+    app.post(ROUTES.POST_ROUTES[ii].path, ROUTES.POST_ROUTES[ii].fn);
 }
 
 http.createServer(app).listen(app.get('port'), function(){

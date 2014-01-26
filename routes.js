@@ -41,18 +41,6 @@ var build_errfn = function(errmsg, response) {
    on the networking aspects of parsing the request and response, initiating
    the query to the database, and packaging it all up in a request.
 */
-var indexfn = function(request, response) {
-    response.render("homepage", {
-	name: Constants.APP_NAME,
-	title: "My First " + Constants.APP_NAME,
-	product_name: Constants.PRODUCT_NAME,
-	twitter_username: Constants.TWITTER_USERNAME,
-	twitter_tweet: Constants.TWITTER_TWEET,
-	product_short_description: Constants.PRODUCT_SHORT_DESCRIPTION,
-	coinbase_preorder_data_code: Constants.COINBASE_PREORDER_DATA_CODE
-    });
-};
-
 var searchfn = function(request, response){
     response.render("search", {});
 };
@@ -75,19 +63,6 @@ var orderfn = function(request, response) {
     global.db.Order.allToJSON(successcb, errcb);
 };
 
-var api_orderfn = function(request, response) {
-    var successcb = function(totals) {
-	var data = uu.extend(totals,
-			     {target: Constants.FUNDING_TARGET,
-			      unit_symbol: Constants.FUNDING_UNIT_SYMBOL,
-			      days_left: Constants.days_left()});
-	data.total_funded *= Constants.FUNDING_SI_SCALE;
-	response.json(data);
-    };
-    var errcb = build_errfn('error retrieving API orders', response);
-    global.db.Order.totals(successcb, errcb);
-};
-
 var api_brewer = function(request, response) {
     var successcb = function(beers) {
 	var data = { beers : beers } 
@@ -97,19 +72,12 @@ var api_brewer = function(request, response) {
     global.db.Beer.fullTextSearch(request.query.q, successcb, errcb);
 }
 
-var refresh_orderfn = function(request, response) {
-    var cb = function(err) {
-	if(err) {
-	    console.log("Error in refresh_orderfn");
-	    response.send("Error refreshing orders.");
-	} else {
-	    response.redirect("/orders");
-	}
-    };
-    global.db.Order.refreshFromCoinbase(cb);
-};
+// Post routes
 
-
+var posttodb = function (req, res) {
+    console.log('posting form\n');
+    res.render("beerinput");
+}
 /*
    Helper functions which create a ROUTES array for export and use by web.js
 
@@ -134,14 +102,13 @@ var define_routes = function(dict) {
     return uu.map(uu.pairs(dict), toroute);
 };
 
-var ROUTES = define_routes({
+exports.ROUTES = define_routes({
     '/': searchfn,
     '/search' : searchfn,
     '/api/brewer' : api_brewer,
     '/input' : inputbeerfn
-//    '/orders': orderfn,
-//    '/api/orders': api_orderfn,
-//    '/refresh_orders': refresh_orderfn
 });
 
-module.exports = ROUTES;
+exports.POST_ROUTES = define_routes({
+    '/input' : posttodb
+});
